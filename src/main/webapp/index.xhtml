@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Kostya
+  Date: 05.01.2023
+  Time: 20:04
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="template/startPage.xhtml">
+    <ui:define name="title">
+        <link rel="stylesheet" href="css/startPage.css"></link>
+        <title>Hitting Area-Start Page</title>
+    </ui:define>
+
+    <ui:define name="head">
+        <div class="banner">
+            <ul>
+
+                Petrov Konstantin
+            </ul>
+            <ul>
+                Group P32081
+            </ul>
+            <ul>
+                Option 918120
+            </ul>
+        </div>
+    </ui:define>
+
+    <ui:define name="main">
+
+        <div class="text_now_time">
+            <ul>
+                Just now:
+            </ul>
+        </div>
+
+
+        <div class="dater">
+            <!--            JS code-->
+        </div>
+
+        <div class="timer">
+            <!--            JS code-->
+        </div>
+    </ui:define>
+
+    <ui:define name="link">
+        <div class="link_on_main_page">
+            <ul>
+                <h:button styleClass="button_on_mainPage" outcome="goToMain" value="Let's do it!">
+                </h:button>
+                <!--    link on main page-->
+            </ul>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="js/index.js"></script>
+
+    </ui:define>
+
+
+</ui:composition>
+
+</html>

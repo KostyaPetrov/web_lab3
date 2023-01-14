@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Kostya
+  Date: 05.01.2023
+  Time: 22:31
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<ui:composition template="template/startPage.xhtml">
+    <ui:define name="title">
+        <link rel="stylesheet" href="css/mainPage.css"></link>
+        <title>Hitting Area-Main Page</title>
+    </ui:define>
+
+    <ui:define name="head">
+        <div class="banner" >
+            <p>Petrov Konstantin</p>
+            <p>Group P32081</p>
+            <p>Option 918120</p>
+        </div>
+    </ui:define>
+
+    <ui:define name="main">
+        <table class="general_table">
+            <tr class="naming_colon_line">
+
+                <th class="banner_area">
+                    Area
+                </th>
+                <th class="banner_input_data">
+                    Input data
+                </th>
+                <th class="banner_results">
+                    Results
+                </th>
+
+            </tr>
+            <tr class="third_line">
+
+                <td  valign = "top">
+                    <div class="image">
+                        <canvas class="area"  id="graph" height="300" width="300"></canvas>
+                    </div>
+                </td>
+
+                <td class="input_data" valign = "top">
+                    <h:form id="input_form" class="validate_form" method="post">
+
+                        <p>
+                            <b class="input_form_info">Your data:</b>
+                        </p>
+
+                        <div class="input">
+                            <div class="input_form_coordinate_X">
+                                <b>Input coordinate X:</b>
+                                <h:outputLabel styleClass="input_form_coordinate_X_label" value=""/>
+
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_min4" type="button" value="-4" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_min3" type="button" value="-3" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_min2" type="button" value="-2" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_min1" type="button" value="-1" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_0" type="button" value="0" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_1" type="button" value="1" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_2" type="button" value="2" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_3" type="button" value="3" />
+                                </ul>
+                                <ul>
+                                    <h:commandButton styleClass="input_form_commandButton" id="x_button_4" type="button" value="4" />
+                                </ul>
+
+                            </div>
+
+                            <h:panelGroup styleClass="input_form_hidden_x">
+                                <h:outputLabel styleClass="input_form_lable_x" for="x_button_hidden" value=""/>
+                                <h:inputHidden id="x_button_hidden" value="#{plot.dataBean.coordinateX}">
+                                    <f:validateRequired/>
+                                    <f:validateLongRange minimum="-4" maximum="5"/>
+                                </h:inputHidden>
+                            </h:panelGroup>
+
+
+
+                            <div class="input_form_coordinate_Y">
+                                <b>Input coordinate Y:</b>
+                                <br></br>
+                                <h:outputLabel styleClass="input_form_coordinate_Y_label" for="y_text" value=""/>
+                                <h:inputText styleClass="input_form_inputText" id="y_text" maxlength="5" autocomplete="off" a:placeholder="From -3 to 5" value="#{plot.dataBean.coordinateY}">
+                                    <f:validateRequired/>
+                                    <f:validateDoubleRange minimum="-3" maximum="5"/>
+                                </h:inputText>
+                            </div>
+
+
+
+                            <div class="input_form_radius">
+                                <b>Enter radius:</b>
+                                <br></br>
+                                <h:outputLabel styleClass="input_form_radius_label" for="r_select" value=""/>
+                                <h:selectOneMenu styleClass="input_form_selectOneMenu"
+                                                 id="r_select" value="#{plot.dataBean.radius}">
+                                    <f:selectItem itemLabel="1" itemValue="1"/>
+                                    <f:selectItem itemLabel="1.5" itemValue="1.5"/>
+                                    <f:selectItem itemLabel="2" itemValue="2"/>
+                                    <f:selectItem itemLabel="2.5" itemValue="2.5"/>
+                                    <f:selectItem itemLabel="3" itemValue="3"/>
+
+
+                                    <f:validateRequired/>
+                                </h:selectOneMenu>
+                            </div>
+
+
+                        </div>
+
+                        <div id="send_data" class="form_for_move_data">
+                            <p></p>
+                            <h:commandButton styleClass="button_for_send_data" id="sendButton" value="Send" action="#{plot.createLineData()}">
+                                <f:ajax execute="@form" render="results"/>
+                            </h:commandButton>
+
+
+                            <br></br>
+                            <p></p>
+                            <h:commandButton styleClass="button_for_clean_result" value="Clean" action="#{plot.dbManager.deleteAllElements()}"  immediate="true"/>
+                            <p></p>
+                        </div>
+
+
+                    </h:form>
+                </td>
+
+                <td valign = "top">
+                    <div class="result_table_container">
+                        <h:dataTable id="results" styleClass="result_table" value="#{plot.allDataBean}" var="data">
+                            <h:column headerClass="result-table__column result-table__column_coords">
+                                <f:facet name="header">X</f:facet>
+                                <h:outputText value="#{data.coordinateX}"/>
+                            </h:column>
+                            <h:column headerClass="result-table__column result-table__column_coords">
+                                <f:facet name="header">Y</f:facet>
+                                <h:outputText value="#{data.coordinateY}"/>
+                            </h:column>
+                            <h:column headerClass="result-table__column result-table__column_coords">
+                                <f:facet name="header">R</f:facet>
+                                <h:outputText value="#{data.radius}"/>
+                            </h:column>
+                            <h:column headerClass="result-table__column result-table__column_hitres">
+                                <f:facet name="header">Result</f:facet>
+                                <h:outputText value="#{data.hitResult}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="js/graph.js" ></script>
+        <script src="js/main.js" ></script>
+
+    </ui:define>
+
+    <ui:define name="link">
+        <div class="link_on_start_page">
+            <ul>
+                <h:button styleClass="button_on_startPage" outcome="goToIndex" value="Back to the future">
+                </h:button>
+                <!--    link on start page-->
+            </ul>
+        </div>
+
+
+    </ui:define>
+
+
+</ui:composition>
+
+</html>
